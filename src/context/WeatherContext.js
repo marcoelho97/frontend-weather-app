@@ -1,10 +1,11 @@
-import React, { createContext, useState } from "react";
 import axios from 'axios';
+import React, { createContext, useState } from "react";
 
 export const WeatherContext = createContext();
 
 export const WeatherProvider = ({ children }) => {
     const [weatherData, setWeatherData] = useState(null);
+    const [dataLocation, setDataLocation] = useState("");
 
     const fetchWeatherData = async (location, startDate, endDate) => {
         try {
@@ -27,7 +28,7 @@ export const WeatherProvider = ({ children }) => {
     }
 
     return (
-        <WeatherContext.Provider value={{ weatherData, setWeatherData, fetchWeatherData }}>
+        <WeatherContext.Provider value={{ weatherData, setWeatherData, fetchWeatherData, dataLocation, setDataLocation }}>
             {children}
         </WeatherContext.Provider>
     );

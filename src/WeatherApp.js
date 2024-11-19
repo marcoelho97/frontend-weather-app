@@ -1,74 +1,25 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import Container from 'react-bootstrap/Container';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import WeatherForm from "./components/forms/WeatherForm";
+import WeatherDataTable from "./components/tables/WeatherDataTable";
 import { WeatherContext } from "./context/WeatherContext";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 const WeatherApp = () => {
-
-    const [location, setLocation] = useState("Lisbon");
-    const [dataLocation, setDataLocation] = useState("");
-    const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
-    const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
-    const { weatherData, setWeatherData, fetchWeatherData } = useContext(WeatherContext);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // Clear data related to old search
-        setWeatherData(null);
-
-        fetchWeatherData(location, startDate, endDate);
-        setDataLocation(location);
-    };
+    const { weatherData, dataLocation } = useContext(WeatherContext);
 
     return (
+        <Container>
+            <h1 className="mt-4 mb-5">Weather App</h1>
+            <WeatherForm />
 
-        <div>
-            <h1>Weather App</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)} 
-                    />
-                <input
-                    type="date"
-                    placeholder="Start Date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)} 
-                    />
-                <input
-                    type="date"
-                    placeholder="End Date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)} 
-                    />
-                <button type="submit">
-                    Check weather
-                </button>
-            </form>
             { weatherData && !weatherData?.error && (
-                <div>
-                    <h2>Weather Data for {dataLocation}</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Average temperature (°C)</th>
-                            <th>Precipitation (%)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {weatherData.map((data, index) => (
-                            <tr key={index}>
-                                <td>{data.date}</td>
-                                <td>{data.temperature}</td>
-                                <td>{data.precipitation}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                <div className="mt-5">
+                    <h2>Weather data for {dataLocation}</h2>
+
+                    <WeatherDataTable />
+
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart data={weatherData} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -82,7 +33,7 @@ const WeatherApp = () => {
                     </ResponsiveContainer>
                 </div>
             )}
-        </div>
+        </Container>
 
     );
 

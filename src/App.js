@@ -1,4 +1,4 @@
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { WeatherProvider } from './context/WeatherContext';
 import WeatherApp from './WeatherApp';
 
