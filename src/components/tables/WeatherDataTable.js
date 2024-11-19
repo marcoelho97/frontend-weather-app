@@ -19,8 +19,19 @@ const WeatherDataTable = () => {
             {weatherData.map((data, index) => (
                 <tr key={index}>
                     <td>{data.date}</td>
-                    <td>{data.temperature} ºC</td>
-                    <td>{data.precipitation} %</td>
+                    <td>
+                        { data.temperature != null
+                            ? (`${data.temperature} ºC`)
+                            : "N/A"
+                        }
+                        
+                    </td>
+                    <td>
+                        { data.precipitation != null
+                            ? (`${data.precipitation} %`)
+                            : "N/A"
+                        }
+                    </td>
                 </tr>
             ))}
             </tbody>
