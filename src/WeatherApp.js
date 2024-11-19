@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { WeatherContext } from "./context/WeatherContext";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 
 const WeatherApp = () => {
 
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState("Lisbon");
     const [dataLocation, setDataLocation] = useState("");
     const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
     const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
@@ -54,7 +56,7 @@ const WeatherApp = () => {
                         <tr>
                             <th>Date</th>
                             <th>Average temperature (°C)</th>
-                            <th>Precipitation</th>
+                            <th>Precipitation (%)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -67,6 +69,17 @@ const WeatherApp = () => {
                         ))}
                         </tbody>
                     </table>
+                    <ResponsiveContainer width="100%" height={400}>
+                        <BarChart data={weatherData} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="temperature" fill="#8884d8" name="Temperature (°C)" />
+                            <Bar dataKey="precipitation" fill="#82ca9d" name="Precipitation (%)" />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
             )}
         </div>
