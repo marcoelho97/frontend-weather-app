@@ -30,8 +30,6 @@ npm install
 ```    
 
 ### 3\. Start the Server
-Preferably in a different port, as the frontend will be in port 3000.
-The frontend is ready to receive from port 10524, so:
 
 ```bash
 npm start
