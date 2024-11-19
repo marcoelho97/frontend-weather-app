@@ -21,33 +21,18 @@ const WeatherForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (new Date(startDate) > new Date(endDate)) {
+            handleSetError("Start date cannot be later than end date");
+            return;
+        }
+        setError("")
+
         // Clear data related to old search
         setWeatherData(null);
 
         fetchWeatherData(location, startDate, endDate);
         setDataLocation(location);
     };
-
-    const handleStartDateChange = (e) => {
-        const newStartDate = e.target.value;
-        if (new Date(newStartDate) > new Date(endDate)) {
-            handleSetError("Start date cannot be later than end date");
-        } else {
-            setError("")
-            setStartDate(newStartDate);
-        }
-    }
-
-    const handleEndDateChange = (e) => {
-        const newEndDate = e.target.value;
-        if (new Date(startDate) > new Date(newEndDate)) {
-            handleSetError("Start date cannot be later than end date");
-        } else {
-            setError("")
-            setEndDate(newEndDate);
-        }
-    }
-
 
     // Show error for 5 seconds
     const handleSetError = useCallback((message) => {
@@ -86,7 +71,7 @@ const WeatherForm = () => {
                             type="date"
                             placeholder="Start Date"
                             value={startDate}
-                            onChange={handleStartDateChange} 
+                            onChange={(e) => setStartDate(e.target.value)} 
                             />
                     </Form.Group>
                 </Col>
@@ -97,7 +82,7 @@ const WeatherForm = () => {
                             type="date"
                             placeholder="End Date"
                             value={endDate}
-                            onChange={handleEndDateChange} 
+                            onChange={(e) => setEndDate(e.target.value)} 
                             />
                     </Form.Group>
                 </Col>
